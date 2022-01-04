@@ -1,6 +1,16 @@
-[
-    {
-        "title":"Test Title",
-        "text":"Test text"
-    }
-]
+{
+    "tasks" : [
+        {
+            "title":"GYM",
+            "text":"6:30 I have to be at the GYM"
+        },
+        {
+            "title":"Bank",
+            "text":"Meeting my partner at the bank 8:00"
+        },
+        {
+            "title":"Meeting",
+            "text":"9:00 I have meeting with client"
+        }
+    ]
+}
