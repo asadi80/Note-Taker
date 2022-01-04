@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const { tasks } = require('./db/db');
 
-
+const PORT = process.env.PORT || 3000;
 function filterByQuery(query, tasksArray) {
     let filteredResults = tasksArray;
     if (query.title) {
@@ -24,6 +24,6 @@ app.get('/api/db', (req, res) => {
     
   });
 
-app.listen(3000, () => {
-    console.log(`API server now on port 3000!`);
+  app.listen(PORT, () => {
+    console.log(`API server now on port ${PORT}!`);
   });
