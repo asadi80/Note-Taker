@@ -1,16 +1,29 @@
 {
-    "tasks" : [
-        {
-            "title":"GYM",
-            "text":"6:30 I have to be at the GYM"
-        },
-        {
-            "title":"Bank",
-            "text":"Meeting my partner at the bank 8:00"
-        },
-        {
-            "title":"Meeting",
-            "text":"9:00 I have meeting with client"
-        }
-    ]
+  "tasks": [
+    {
+      "id": "0",
+      "title": "GYM",
+      "text": "6:30 I have to be at the GYM"
+    },
+    {
+      "id": "1",
+      "title": "Bank",
+      "text": "Meeting my partner at the bank 8:00"
+    },
+    {
+      "id": "2",
+      "title": "Meeting",
+      "text": "9:00 I have meeting with client"
+    },
+    {
+      "title": "birthday",
+      "text": "11:00 birthday party",
+      "id": "3"
+    },
+    {
+      "title": "lunch meeting",
+      "text": "12:00 at Canse",
+      "id": "4"
+    }
+  ]
 }
