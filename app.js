@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 app.use(express.static('public'));
-const { tasks } = require('./db/db');
+const { tasks } = require('./db/notes');
 
 const PORT = process.env.PORT || 3000;
 
@@ -27,7 +27,7 @@ function createNewTask(body, tasksArray) {
     const task = body;
     tasksArray.push(task);
     fs.writeFileSync(
-        path.join(__dirname, './db/db.json'),
+        path.join(__dirname, './db/notes.json'),
         JSON.stringify({ tasks: tasksArray }, null, 2)
       );
   
@@ -50,7 +50,7 @@ function findById(id, tasksArray) {
     return result;
 }
 
-app.get('/api/db', (req, res) => {
+app.get('/api/notes', (req, res) => {
     let results = tasks;
     if (req.query) {
         results = filterByQuery(req.query, results);
@@ -58,7 +58,7 @@ app.get('/api/db', (req, res) => {
     res.json(results);
     
 });
-app.get('/api/db/:id', (req, res) => {
+app.get('/api/notes/:id', (req, res) => {
     const result = findById(req.params.id, tasks);
   if (result) {
     res.json(result);
@@ -66,7 +66,7 @@ app.get('/api/db/:id', (req, res) => {
     res.send(404);
   }
 });
-app.post('/api/db', (req, res) => {
+app.post('/api/notes', (req, res) => {
     console.log(req.body);
     // set id based on what the next index of the array will be
     req.body.id = tasks.length.toString();
@@ -81,13 +81,13 @@ app.post('/api/db', (req, res) => {
   }
 });
 
-app.delete('/api/db/:id', (req, res) => {
+app.delete('/api/notes/:id', (req, res) => {
 
   const { id } = req.params;
   const projectIndex = tasks.findIndex(p => p.id == id);
   tasks.splice(projectIndex, 1);
   fs.writeFileSync(
-    path.join(__dirname, './db/db.json'),
+    path.join(__dirname, './db/notes.json'),
     JSON.stringify({ tasks}, null, 2)
   );
   return res.send();
