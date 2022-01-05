@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const path = require('path');
+
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
@@ -33,17 +34,21 @@ function createNewTask(body, tasksArray) {
     return task;
   }
 
-  function validateTask(task) {
+function validateTask(task) {
     if (!task.title || typeof task.title !== 'string') {
-      return false;
+        return false;
     }
     if (!task.text || typeof task.text !== 'string') {
-      return false;
+        return false;
     }
-    
-    return true;
-  }
 
+    return true;
+}
+
+function findById(id, tasksArray) {
+    const result = tasksArray.filter(task => task.id === id)[0];
+    return result;
+}
 
 app.get('/api/db', (req, res) => {
     let results = tasks;
@@ -52,6 +57,14 @@ app.get('/api/db', (req, res) => {
       }
     res.json(results);
     
+});
+app.get('/api/db/:id', (req, res) => {
+    const result = findById(req.params.id, tasks);
+  if (result) {
+    res.json(result);
+  } else {
+    res.send(404);
+  }
 });
 app.post('/api/db', (req, res) => {
     console.log(req.body);
@@ -68,6 +81,21 @@ app.post('/api/db', (req, res) => {
   }
 });
 
+app.delete('/api/db/:id', (req, res) => {
+
+  const { id } = req.params;
+  const projectIndex = tasks.findIndex(p => p.id == id);
+  tasks.splice(projectIndex, 1);
+  fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),
+    JSON.stringify({ tasks}, null, 2)
+  );
+  return res.send();
+  
+    
+    
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
   });
@@ -79,6 +107,9 @@ res.sendFile(path.join(__dirname, './public/notes.html'));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
   });
+
+
+
 
 app.listen(PORT, () => {
 console.log(`API server now on port ${PORT}!`);
